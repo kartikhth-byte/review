@@ -57,25 +57,28 @@ Pick a depth tier by matching the review to the cost of getting the spec wrong. 
 The size heuristic in section 2 catches the easy cases. For anything in the middle, run this rubric and let the score pick the tier. The rubric trumps the size heuristic when they conflict, because risk and team size are independent: a small internal tool handling regulated data is a higher-stakes review than a large project doing cosmetic work.
 
 Each spec is scored 1 to 3 on seven axes:
-    - **Data sensitivity:** 1 (cosmetic only) / 2 (internal business data) / 3 (PII, financial, health, or regulated).
-    - **Reversibility:** 1 (easily reversed) / 2 (recoverable with effort) / 3 (irreversible: data loss, public exposure, sent communications).
-    - **User impact:** 1 (single user or single-team) / 2 (department or customer subset) / 3 (all users or external customers).
-    - **Migration risk:** 1 (no schema change) / 2 (additive schema change) / 3 (data migration, backfill, or destructive change).
-    - **Security boundary:** 1 (no auth/permission changes) / 2 (read-permission changes) / 3 (write-permission, identity, or session changes).
-    - **Compliance exposure:** 1 (none) / 2 (internal policy) / 3 (external regulation: HIPAA, GDPR, SOX, PCI, maritime safety, etc.).
-    - **Implementation ambiguity:** 1 (well-bounded, prior art exists) / 2 (some open questions) / 3 (lots of judgment calls, novel pattern).
 
-    Total range: 7-21. Tier mapping:
-    - **7-10 → L1-L2.** Bare or scope-only directed prompt. The risk is too low to justify specialist passes.
-    - **11-14 → L3.** Comprehensive directed prompt with failure-mode list. One reviewer, structured.
-    - **15-18 → L4.** Full three-stage cycle. Multiple specialists, synthesis, steel-man, implementation-engineer pass.
-    - **19-21 → L5.** Multi-model three-stage cycle. Specialists spread across model families.
+- **Data sensitivity:** 1 (cosmetic only) / 2 (internal business data) / 3 (PII, financial, health, or regulated).
+- **Reversibility:** 1 (easily reversed) / 2 (recoverable with effort) / 3 (irreversible: data loss, public exposure, sent communications).
+- **User impact:** 1 (single user or single-team) / 2 (department or customer subset) / 3 (all users or external customers).
+- **Migration risk:** 1 (no schema change) / 2 (additive schema change) / 3 (data migration, backfill, or destructive change).
+- **Security boundary:** 1 (no auth/permission changes) / 2 (read-permission changes) / 3 (write-permission, identity, or session changes).
+- **Compliance exposure:** 1 (none) / 2 (internal policy) / 3 (external regulation: HIPAA, GDPR, SOX, PCI, maritime safety, etc.).
+- **Implementation ambiguity:** 1 (well-bounded, prior art exists) / 2 (some open questions) / 3 (lots of judgment calls, novel pattern).
 
-    The rubric trumps the size heuristic in cases of conflict. A "small team internal tool" handling regulated health data starts at 11 from data-sensitivity and compliance alone, and can easily reach 15+ if it also touches permissions, migration, or irreversible workflows. At that point it gets L4 review even though its size profile suggests L3. Conversely, a "large project" with cosmetic-only changes and no migration scores in the 7-10 range and gets L1-L2 review.
+Total range: 7-21. Tier mapping:
 
-    **The rubric is a forcing function, not a risk calculator.** Don't treat 14 vs 15 as objectively different tiers; it's still judgment. The two rules that override the raw score:
-    - If any single axis is existential (an axis score of 3 on Security Boundary, Reversibility, or Compliance Exposure where a defect would cause material harm), manually promote to the next tier.
-    - A payment-auth change might score only midrange if scoped narrowly, but still deserves L4 because the security/compliance blast radius is high. Score is a starting point; judgment finishes the decision.
+- **7-10 → L1-L2.** Bare or scope-only directed prompt. The risk is too low to justify specialist passes.
+- **11-14 → L3.** Comprehensive directed prompt with failure-mode list. One reviewer, structured.
+- **15-18 → L4.** Full three-stage cycle. Multiple specialists, synthesis, steel-man, implementation-engineer pass.
+- **19-21 → L5.** Multi-model three-stage cycle. Specialists spread across model families.
+
+The rubric trumps the size heuristic in cases of conflict. A "small team internal tool" handling regulated health data starts at 11 from data-sensitivity and compliance alone, and can easily reach 15+ if it also touches permissions, migration, or irreversible workflows. At that point it gets L4 review even though its size profile suggests L3. Conversely, a "large project" with cosmetic-only changes and no migration scores in the 7-10 range and gets L1-L2 review.
+
+**The rubric is a forcing function, not a risk calculator.** Don't treat 14 vs 15 as objectively different tiers; it's still judgment. The two rules that override the raw score:
+
+- If any single axis is existential (an axis score of 3 on Security Boundary, Reversibility, or Compliance Exposure where a defect would cause material harm), manually promote to the next tier.
+- A payment-auth change might score only midrange if scoped narrowly, but still deserves L4 because the security/compliance blast radius is high. Score is a starting point; judgment finishes the decision.
 
 ## 2b. What L3 and L4 Mean in Terms of Prompts
 
